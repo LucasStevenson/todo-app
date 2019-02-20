@@ -14,10 +14,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:5000/api/v1/todos/')
+    fetch('http://localhost:5000/api/v1/todos/',{
+      method: 'GET',
+    })
       .then(response => response.json())
       .then(data => {
-        this.setState({ data });
+        this.setState({ toDos: data });
         console.log(data);
       });
   }
@@ -61,7 +63,15 @@ class App extends Component {
     const toDoItem = this.state.toDos.map((item, index) => {
             return (
               <li key={index}>
-                {item}
+              <div className="titlename">
+              {"Title: " + item.title}
+              </div>
+
+              <div className="description">
+              <span className="leftdesc">Description: </span>
+              {item.description}
+              </div>
+
                 <div className="rmButton">
                 <button id={index} onClick={this.removeButton} >Remove</button>
                  </div>

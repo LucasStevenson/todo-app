@@ -1,0 +1,53 @@
+li {
+  border: 1px solid powderblue;
+  margin: 25px;
+  padding: 30px;
+  
+}
+
+.App {
+  text-align: left;
+}
+
+.title {
+  text-align: center;
+}
+
+.inputContainer{
+  text-align: center;
+}
+
+.clearB {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.rmButton {
+  text-align: right;
+}
+
+.textInput {
+  padding: 1px;
+  font-size: 13px;
+  border: 2px solid #808080 ;
+  width: 165px;
+}
+
+.App-bulletList {
+  display: flex;
+  align-items: left;
+  text-align: left;
+}
+
+.App-toDoForm {
+  text-align: left;
+}
+
+.titlename {
+  color: green;
+}
+
+.description {
+  color: purple
+}
