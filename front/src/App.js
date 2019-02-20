@@ -59,7 +59,10 @@ class App extends Component {
     const toDoItem = this.state.toDos.map((item, index) => {
       return (
         <li key={index}>
-          <div className="titlename">{'Title: ' + item.title}</div>
+          <div className="titlename">
+            <span className="actualtitle">Title: </span>
+          {'Title: ' + item.title}
+          </div>
 
           <div className="description">
             <span className="leftdesc">Description: </span>

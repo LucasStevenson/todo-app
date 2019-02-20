@@ -44,9 +44,17 @@ li {
 }
 
 .titlename {
-  color: green;
+  color: red;
 }
 
 .description {
+  color: red;
+}
+
+.leftdesc {
+  color: purple;
+}
+
+.actualtitle {
   color: purple;
 }
