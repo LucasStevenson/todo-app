@@ -2,7 +2,6 @@ li {
   border: 1px solid powderblue;
   margin: 25px;
   padding: 30px;
-  
 }
 
 .App {
@@ -13,7 +12,7 @@ li {
   text-align: center;
 }
 
-.inputContainer{
+.inputContainer {
   text-align: center;
 }
 
@@ -30,7 +29,7 @@ li {
 .textInput {
   padding: 1px;
   font-size: 13px;
-  border: 2px solid #808080 ;
+  border: 2px solid #808080;
   width: 165px;
 }
 
@@ -49,5 +48,5 @@ li {
 }
 
 .description {
-  color: purple
+  color: purple;
 }

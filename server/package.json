@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "format": "prettier --print-width 80 --no-semi --single-quote --trailing-comma es5 --write *.js"
+
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +16,7 @@
     "mongoose": "^5.4.12"
   },
   "devDependencies": {
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "prettier": "1.16.4"
   }
 }
