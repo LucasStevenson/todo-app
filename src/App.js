@@ -1,59 +1,58 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 //import logo from './logo.svg';
-import './App.css'
+import "./App.css";
 
 class App extends Component {
   constructor() {
     //Not sure how this is any different from what you had
-    super()
+    super();
     this.state = {
-      newToDo: '',
-      toDos: [],
-      data: null,
-    }
+      newDescription: "",
+      newTitle: "",
+      toDos: []
+    };
   }
 
   componentDidMount() {
-    fetch('http://localhost:5000/api/v1/todos/', {
-      method: 'GET',
+    fetch("http://localhost:5000/api/v1/todos/", {
+      method: "GET"
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({ toDos: data })
-        console.log(data)
-      })
+        this.setState({ toDos: data });
+        console.log(data);
+      });
   }
 
-  onChange = event => {
-    this.setState({ newToDo: event.target.value })
-  }
+  onChange = (key, value) => {
+    this.setState({ [key]: value });
+  };
 
   handleSubmit = event => {
-    event.preventDefault()
-    const { toDos, newToDo } = this.state
-    if (newToDo.length >= 1 && newToDo.length <= 250) {
-      toDos.push(newToDo)
-      this.setState({ toDos, newToDo: '' })
-    } else {
-      alert('You are ' + newToDo.length - 250 + ' characters over the limit!')
-    }
-  }
+    event.preventDefault();
+    let { toDos, newTitle } = this.state;
+    toDos.push(newTitle);
+    this.setState({
+      toDos: newTitle,
+      newTitle: ""
+    });
+  };
 
   removeButton = event => {
-    event.preventDefault()
-    const { toDos } = this.state
-    let index = event.target.id
-    toDos.splice(index, 1)
-    //console.log(toDos);
-    this.setState({ toDos })
-  }
+    event.preventDefault();
+    const { toDos } = this.state;
+    let index = event.target.id;
+    toDos.splice(index, 1);
+
+    this.setState({ toDos });
+  };
 
   clearButton = event => {
-    event.preventDefault()
-    let toDos = this.state
-    toDos = []
-    this.setState({ toDos })
-  }
+    event.preventDefault();
+    let toDos = this.state;
+    toDos = [];
+    this.setState({ toDos });
+  };
 
   render() {
     const toDoItem = this.state.toDos.map((item, index) => {
@@ -61,11 +60,11 @@ class App extends Component {
         <li key={index}>
           <div className="titlename">
             <span className="actualtitle">Title: </span>
-          {'Title: ' + item.title}
+            {item.title}
           </div>
 
           <div className="description">
-            <span className="leftdesc">Description: </span>
+            <span className="actualdesc">Description: </span>
             {item.description}
           </div>
 
@@ -75,8 +74,8 @@ class App extends Component {
             </button>
           </div>
         </li>
-      )
-    })
+      );
+    });
 
     return (
       <div className="App">
@@ -85,9 +84,20 @@ class App extends Component {
         <div className="inputContainer">
           <form className="toDoForm" onSubmit={this.handleSubmit}>
             <input
-              className="input"
-              value={this.state.newToDo}
-              onChange={this.onChange}
+              className="title"
+              value={this.state.newTitle}
+              onChange={event => {
+                this.onChange("newTitle", event.target.value);
+              }}
+              key="newTitle"
+            />
+            <input
+              className="description"
+              value={this.state.newDescription}
+              onChange={event => {
+                this.onChange("newDescription", event.target.value);
+              }}
+              key="newDescription"
             />
 
             <input className="submitButton" type="submit" value="Add to list" />
@@ -102,8 +112,8 @@ class App extends Component {
 
         <ul className="bulletList">{toDoItem}</ul>
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;
