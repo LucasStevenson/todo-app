@@ -4,7 +4,7 @@ import "./App.css";
 
 class App extends Component {
   constructor() {
-    //Not sure how this is any different from what you had
+    // Intial setup for app state
     super();
     this.state = {
       newDescription: "",
@@ -13,6 +13,7 @@ class App extends Component {
     };
   }
 
+  // Retrieve data from API
   componentDidMount() {
     fetch("http://localhost:5000/api/v1/todos/", {
       method: "GET"
@@ -24,29 +25,35 @@ class App extends Component {
       });
   }
 
+  // Update state values for adding new todos
   onChange = (key, value) => {
     this.setState({ [key]: value });
   };
 
+  // Submits new todos to DB
   handleSubmit = event => {
     event.preventDefault();
-    let { toDos, newTitle } = this.state;
-    toDos.push(newTitle);
-    this.setState({
-      toDos: newTitle,
-      newTitle: ""
-    });
+    // Need to update to connect with DB and properly structure obj
+
+    // let { toDos, newTitle } = this.state;
+    // toDos.push(newTitle);
+    // this.setState({
+    //   toDos: newTitle,
+    //   newTitle: ""
+    // });
   };
 
+  // Removes todos
   removeButton = event => {
     event.preventDefault();
     const { toDos } = this.state;
     let index = event.target.id;
     toDos.splice(index, 1);
-
+    // Need to Update to connect with DB
     this.setState({ toDos });
   };
 
+  // Clears all todos -> Do we still wand this with the API?
   clearButton = event => {
     event.preventDefault();
     let toDos = this.state;
@@ -54,8 +61,10 @@ class App extends Component {
     this.setState({ toDos });
   };
 
+  // Renders the HTML for our app
   render() {
-    const toDoItem = this.state.toDos.map((item, index) => {
+    // Maps out ToDo list items
+    const todos = this.state.toDos.map((item, index) => {
       return (
         <li key={index}>
           <div className="titlename">
@@ -67,7 +76,6 @@ class App extends Component {
             <span className="actualdesc">Description: </span>
             {item.description}
           </div>
-
           <div className="rmButton">
             <button id={index} onClick={this.removeButton}>
               Remove
@@ -82,6 +90,7 @@ class App extends Component {
         <h1 className="title">To do List</h1>
 
         <div className="inputContainer">
+          {/* Form for submitting new todos */}
           <form className="toDoForm" onSubmit={this.handleSubmit}>
             <input
               className="title"
@@ -99,18 +108,18 @@ class App extends Component {
               }}
               key="newDescription"
             />
-
             <input className="submitButton" type="submit" value="Add to list" />
           </form>
         </div>
 
+        {/* Conditionally renders clear button */}
         {this.state.toDos.length > 0 ? (
           <div className="clearB">
             <button onClick={this.clearButton}>Clear All</button>
           </div>
         ) : null}
-
-        <ul className="bulletList">{toDoItem}</ul>
+        {/* Renders list of todos */}
+        <ul className="bulletList">{todos}</ul>
       </div>
     );
   }
