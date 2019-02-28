@@ -33,6 +33,10 @@ class App extends Component {
   handleSubmit = event => {
     event.preventDefault();
     let { toDos, newTitle, newDescription } = this.state;
+    if (newTitle.length === 0 || newDescription.length === 0) {
+      alert("Bad input");
+      return;
+    }
     fetch("http://localhost:5000/api/v1/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -47,7 +51,7 @@ class App extends Component {
         //console.log(data);
         toDos.push(data);
 
-        this.setState({ toDos });
+        this.setState({ toDos, newTitle: "", newDescription: "" });
       })
       .catch(error => {
         console.error(error);
@@ -71,7 +75,7 @@ class App extends Component {
       method: "DELETE",
       headers: {}
     })
-      .then(response => console.log(response))
+      //.then(response => console.log(response))
       .catch(error => {
         console.error(error);
       });
@@ -95,6 +99,7 @@ class App extends Component {
     this.setState({ toDos });
   };
 
+  //complete button!
   completeButton = event => {
     event.preventDefault();
     const { toDos } = this.state;
@@ -114,7 +119,7 @@ class App extends Component {
     this.setState({ toDos });
   };
 
-  // Renders the HTML for our app
+  // Renders the HTML for the app
   render() {
     // Maps out ToDo list items
     const todos = this.state.toDos.map((item, index) => {
@@ -126,7 +131,7 @@ class App extends Component {
               {item.title}
             </div>
 
-            <div className="description">
+            <div className="descriptionInput">
               <span className="actualdesc">Description: </span>
               {item.description}
             </div>
@@ -138,7 +143,7 @@ class App extends Component {
           <div className="Buttons">
             <div className="complete">
               <button id={index} onClick={this.completeButton}>
-                {item.completed ? "False" : "True"}
+                {item.completed ? "Mark as incomplete" : "Mark as complete"}
               </button>
             </div>
             <div className="rmButton">
@@ -159,12 +164,13 @@ class App extends Component {
           {/* Form for submitting new todos */}
           <form className="toDoForm" onSubmit={this.handleSubmit}>
             <input
-              className="title"
+              className="titleInput"
               value={this.state.newTitle}
               onChange={event => {
                 this.onChange("newTitle", event.target.value);
               }}
               key="newTitle"
+              placeholder="Title"
             />
             <input
               className="description"
@@ -173,6 +179,7 @@ class App extends Component {
                 this.onChange("newDescription", event.target.value);
               }}
               key="newDescription"
+              placeholder="Description"
             />
             <input className="submitButton" type="submit" value="Add to list" />
           </form>
