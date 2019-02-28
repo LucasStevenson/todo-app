@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-//import logo from './logo.svg';
 import "./App.css";
 
 class App extends Component {
@@ -21,7 +20,7 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({ toDos: data });
-        console.log(data);
+        //console.log(data);
       });
   }
 
@@ -33,22 +32,50 @@ class App extends Component {
   // Submits new todos to DB
   handleSubmit = event => {
     event.preventDefault();
-    // Need to update to connect with DB and properly structure obj
+    let { toDos, newTitle, newDescription } = this.state;
+    fetch("http://localhost:5000/api/v1/todos", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        title: newTitle,
+        description: newDescription,
+        completed: false
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        //console.log(data);
+        toDos.push(data);
 
-    // let { toDos, newTitle } = this.state;
-    // toDos.push(newTitle);
-    // this.setState({
-    //   toDos: newTitle,
-    //   newTitle: ""
-    // });
+        this.setState({ toDos });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
+  // let { toDos, newTitle } = this.state;
+  // toDos.push(newTitle);
+  // this.setState({
+  //   toDos: newTitle,
+  //   newTitle: ""
+  // });
 
   // Removes todos
   removeButton = event => {
     event.preventDefault();
     const { toDos } = this.state;
     let index = event.target.id;
-    toDos.splice(index, 1);
+    let oldTodo = toDos.splice(index, 1)[0];
+
+    fetch(`http://localhost:5000/api/v1/todos/${oldTodo._id}`, {
+      method: "DELETE",
+      headers: {}
+    })
+      .then(response => console.log(response))
+      .catch(error => {
+        console.error(error);
+      });
+
     // Need to Update to connect with DB
     this.setState({ toDos });
   };
@@ -58,6 +85,32 @@ class App extends Component {
     event.preventDefault();
     let toDos = this.state;
     toDos = [];
+    fetch("http://localhost:5000/api/v1/todos", {
+      method: "DELETE"
+    })
+      .then(response => console.log(response))
+      .catch(error => {
+        console.error(error);
+      });
+    this.setState({ toDos });
+  };
+
+  completeButton = event => {
+    event.preventDefault();
+    const { toDos } = this.state;
+    let index = event.target.id;
+    let todo = toDos[index];
+    todo.completed = !todo.completed;
+    fetch(`http://localhost:5000/api/v1/todos/${todo._id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        completed: todo.completed
+      })
+    })
+      //.then(result => console.log(result))
+      .catch(e => console.log(e));
+    toDos[index] = todo;
     this.setState({ toDos });
   };
 
@@ -67,19 +120,32 @@ class App extends Component {
     const todos = this.state.toDos.map((item, index) => {
       return (
         <li key={index}>
-          <div className="titlename">
-            <span className="actualtitle">Title: </span>
-            {item.title}
-          </div>
+          <div className="todoDetails">
+            <div className="titlename">
+              <span className="actualtitle">Title: </span>
+              {item.title}
+            </div>
 
-          <div className="description">
-            <span className="actualdesc">Description: </span>
-            {item.description}
+            <div className="description">
+              <span className="actualdesc">Description: </span>
+              {item.description}
+            </div>
+            <div className="finished">
+              <span className="completeColor">completed: </span>
+              {item.completed ? "True" : "False"}
+            </div>
           </div>
-          <div className="rmButton">
-            <button id={index} onClick={this.removeButton}>
-              Remove
-            </button>
+          <div className="Buttons">
+            <div className="complete">
+              <button id={index} onClick={this.completeButton}>
+                {item.completed ? "False" : "True"}
+              </button>
+            </div>
+            <div className="rmButton">
+              <button id={index} onClick={this.removeButton}>
+                Remove
+              </button>
+            </div>
           </div>
         </li>
       );

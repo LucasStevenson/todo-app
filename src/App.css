@@ -1,4 +1,7 @@
 li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   border: 1px solid powderblue;
   margin: 25px;
   padding: 30px;
@@ -57,4 +60,15 @@ li {
 
 .actualdesc {
   color: purple;
+}
+
+/* .Buttons { */
+/* } */
+
+.completeColor {
+  color: blue;
+}
+
+.finished {
+  color: green;
 }
