@@ -108,7 +108,7 @@ class App extends Component {
         completed: todo.completed
       })
     })
-      //.then(result => console.log(result))
+      .then(result => console.log(result))
       .catch(e => console.log(e));
     toDos[index] = todo;
     this.setState({ toDos });
