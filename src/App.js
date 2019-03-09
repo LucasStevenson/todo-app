@@ -14,7 +14,7 @@ class App extends Component {
 
   // Retrieve data from API
   componentDidMount() {
-    fetch("http://localhost:5000/api/v1/todos/", {
+    fetch("https://lucas-todo.herokuapp.com/api/v1/todos/", {
       method: "GET"
     })
       .then(response => response.json())
@@ -37,7 +37,7 @@ class App extends Component {
       alert("Bad input");
       return;
     }
-    fetch("http://localhost:5000/api/v1/todos", {
+    fetch("https://lucas-todo.herokuapp.com/api/v1/todos", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,7 +71,7 @@ class App extends Component {
     let index = event.target.id;
     let oldTodo = toDos.splice(index, 1)[0];
 
-    fetch(`http://localhost:5000/api/v1/todos/${oldTodo._id}`, {
+    fetch(`https://lucas-todo.herokuapp.com/api/v1/todos/${oldTodo._id}`, {
       method: "DELETE",
       headers: {}
     })
@@ -89,7 +89,7 @@ class App extends Component {
     event.preventDefault();
     let toDos = this.state;
     toDos = [];
-    fetch("http://localhost:5000/api/v1/todos", {
+    fetch("https://lucas-todo.herokuapp.com/api/v1/todos", {
       method: "DELETE"
     })
       .then(response => console.log(response))
@@ -106,7 +106,7 @@ class App extends Component {
     let index = event.target.id;
     let todo = toDos[index];
     todo.completed = !todo.completed;
-    fetch(`http://localhost:5000/api/v1/todos/${todo._id}`, {
+    fetch(`https://lucas-todo.herokuapp.com/api/v1/todos/${todo._id}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
